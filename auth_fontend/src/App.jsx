@@ -1,10 +1,12 @@
 import { useState } from 'react'
+import './styles/globals.css'
+import Login from './pages/Login'
 
 function App() {
 
   return (
     <>
-      hello laravel Auth
+      <Login />
     </>
   )
 }
