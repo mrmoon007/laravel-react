@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import {toast, ToastContainer} from "react-toastify";
+import ApiService from '../services/apiService';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -18,6 +21,25 @@ const Login = () => {
     e.preventDefault();
     // Handle login logic here
     console.log('Login attempt with:', formData);
+    ApiService.post(`/login`, formData).then((response) => {
+      if (response.status === 200) {
+
+        toast.success(`Success Notification !  Login successfully`, {
+          position: "top-right"
+        });
+        localStorage.setItem("accessToken", response.data.access_token);
+        localStorage.setItem("userData", JSON.stringify(response.data.user));
+        // navigate("../home", { replace: true });
+        window.location.href = '/home'
+      }
+    })
+      .catch((error) => {
+        toast.error(`Error Notification ! ${error}`, {
+          position: "top-right"
+        });
+      });
+
+
   };
 
   // Calculate fill levels
@@ -28,6 +50,7 @@ const Login = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <ToastContainer/>
       <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-xl shadow-2xl">
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
@@ -48,7 +71,7 @@ const Login = () => {
                 value={formData.email}
                 onChange={handleChange}
               />
-              <div 
+              <div
                 className="absolute bottom-0 left-0 h-0.5 bg-indigo-500 transition-all duration-300 rounded-full"
                 style={{ width: `${getInputFillLevel(formData.email)}%` }}
               />
@@ -65,7 +88,7 @@ const Login = () => {
                 value={formData.password}
                 onChange={handleChange}
               />
-              <div 
+              <div
                 className="absolute bottom-0 left-0 h-0.5 bg-indigo-500 transition-all duration-300 rounded-full"
                 style={{ width: `${getInputFillLevel(formData.password)}%` }}
               />
@@ -85,13 +108,12 @@ const Login = () => {
         <div className="text-center mt-4">
           <p className="text-sm text-gray-600">
             If you are not registered?{' '}
-            <button
-              type="button"
+            <Link
               className="font-medium text-indigo-600 hover:text-indigo-500 transition duration-300 hover:underline"
-              onClick={() => {/* Add your signup navigation logic here */}}
+              to='/signup'
             >
               Sign up
-            </button>
+            </Link>
           </p>
         </div>
       </div>
