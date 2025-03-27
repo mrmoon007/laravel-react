@@ -11,10 +11,13 @@ const ApiService = {
     },
 
     get(resource, params) {
+        console.log(localStorage.getItem('accessToken'));
+        
         return axios.get(`${resource}`, params);
     },
 
     post(resource, params) {
+        console.log(localStorage.getItem('accessToken'));
         return axios.post(`${resource}`, params);
     },
 

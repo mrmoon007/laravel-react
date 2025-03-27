@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {toast, ToastContainer} from "react-toastify";
 import ApiService from '../services/apiService';
 
 const Login = () => {
+
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -27,10 +30,12 @@ const Login = () => {
         toast.success(`Success Notification !  Login successfully`, {
           position: "top-right"
         });
+        
         localStorage.setItem("accessToken", response.data.access_token);
         localStorage.setItem("userData", JSON.stringify(response.data.user));
         // navigate("../home", { replace: true });
         window.location.href = '/home'
+        // navigate("/home");
       }
     })
       .catch((error) => {
