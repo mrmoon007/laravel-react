@@ -11,7 +11,7 @@ const ApiService = {
     },
 
     get(resource, params) {
-        console.log(localStorage.getItem('accessToken'));
+        // console.log(localStorage.getItem('accessToken'));
         
         return axios.get(`${resource}`, params);
     },
